@@ -85,4 +85,59 @@ class DB
     {
         return $this->errors;
     }
+
+    ## Insert ##
+    public function insert()
+    {
+        if (empty($this->values)) throw new Exception('Values are required');
+        if (empty($this->columns)) throw new Exception('Columns are required');
+
+        $valueString = rtrim(str_repeat("?, ", count($this->values)), ", ");
+        $this->query = 'INSERT INTO ' . $this->table . ' (' . implode(', ', $this->columns) . ') values (' . $valueString . ')';
+        $pdo = $this->PDOConnection();
+        $statement = $this->checkQuery($pdo);
+        $statement->execute($this->values);
+        if ($statement->rowCount() != 0) {
+            return $pdo->lastInsertId();
+        } else {
+            $this->setError($statement->errorInfo());
+        }
+        return false;
+    }
+
+    ## Run Query ##
+    public function makeQuery($data)
+    {
+        // Create connection
+        $pdoConnection = $this->PDOConnection();
+        $query = $pdoConnection->prepare($data['query']);
+        if (!empty($data['values'])) {
+            $query->execute($data['values']);
+        } else {
+            $query->execute();
+        }
+
+        // Confirm Query
+        if (!empty($data['returnConfirmation'])) {
+            if ($query->rowCount() > 0) {
+                return true;
+            } else {
+                return 500;
+            }
+        }
+
+        // return insert ID
+        if (!empty($data['returnInsertID'])) {
+            if ($query->rowCount() == 1) {
+                return $pdoConnection->lastInsertId();
+            }
+        }
+
+        // Fetch Results
+        if (!empty($data['singleRecord'])) {
+            return $query->fetch(PDO::FETCH_OBJ);
+        } else {
+            return $query->fetchAll(PDO::FETCH_OBJ);
+        }
+    }
 }
