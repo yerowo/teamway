@@ -30,4 +30,11 @@ class WorkerManager
             'query' => 'SELECT * FROM workers ORDER BY date DESC',
         ]);
     }
+
+    public function getAllShifts(): array
+    {
+        return (new DB('shifts'))->makeQuery([
+            'query' => 'SELECT * FROM shifts ORDER BY id DESC',
+        ]);
+    }
 }

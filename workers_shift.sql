@@ -3,11 +3,10 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: database
--- Generation Time: Apr 08, 2023 at 01:44 PM
+-- Generation Time: Apr 07, 2023 at 09:44 AM
 -- Server version: 5.7.28
 -- PHP Version: 8.1.17
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */
@@ -42,13 +41,7 @@ INSERT INTO `workers` (
         `role_id`,
         `date`
     )
-VALUES (
-        'WRK202304080',
-        'John',
-        'Doe',
-        1,
-        '1680948090'
-    );
+VALUES ('WRK202304081', 'Jone', 'Doe', 1, '1671907249');
 -- --------------------------------------------------------
 --
 -- Table structure for table `workers_roles`
@@ -64,7 +57,7 @@ INSERT INTO `workers_roles` (`role_id`, `title`)
 VALUES (1, 'Shift worker');
 -- --------------------------------------------------------
 --
--- Table structure for table `shifts`
+-- Table structure for table `workers_shifts`
 --
 CREATE TABLE `shifts` (
     `id` int(11) NOT NULL,
@@ -91,23 +84,23 @@ INSERT INTO `shifts` (
     )
 VALUES (
         1,
-        '42b763171470a',
-        'WRK202304080',
+        '63a763171470d',
+        'WRK202304081',
         8,
-        '1680940800',
-        '1680969600',
-        'done',
-        '1680948090'
+        '1671951600',
+        '1671980400',
+        'missed',
+        '1671914263'
     ),
     (
         2,
-        '43a7632d8e0dc',
-        'WRK202304080',
+        '63a7632d8e0ca',
+        'WRK202304081',
         8,
-        '1681027200',
-        '1681056000',
-        'done',
-        '1680948375'
+        '1672009200',
+        '1672038000',
+        'missed',
+        '1671914285'
     );
 --
 -- Indexes for dumped tables
@@ -124,7 +117,7 @@ ADD PRIMARY KEY (`worker_id`),
 ALTER TABLE `workers_roles`
 ADD PRIMARY KEY (`role_id`);
 --
--- Indexes for table `shifts`
+-- Indexes for table `workers_shifts`
 --
 ALTER TABLE `shifts`
 ADD PRIMARY KEY (`id`),
