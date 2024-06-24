@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Worker and Shift Management</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Worker and Shift Management</h1>
+        
+        <section id="create-worker">
+            <h2>Create Worker</h2>
+            <form id="worker-form">
+                <label for="first-name">First Name:</label>
+                <input type="text" id="first-name" name="first_name" required>
+                <label for="last-name">Last Name:</label>
+                <input type="text" id="last-name" name="last_name" required>
+                <button type="submit">Create Worker</button>
+            </form>
+            <div id="worker-message"></div>
+        </section>
+
+        <section id="workers-list">
+            <h2>Workers List</h2>
+            <button id="load-workers">Load Workers</button>
+            <table id="workers" class="responsive-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
+        
+
+        <section id="create-shift">
+            <h2>Create Shift</h2>
+            <form id="shift-form">
+                <label for="worker-id">Worker ID:</label>
+                <input type="text" id="worker-id" name="worker_id" required>
+                <label for="start-date">Start Date:</label>
+                <input type="date" id="start-date" name="start_date" required>
+                <label for="start-time">Start Time:</label>
+                <select id="start-time" name="start_time" required>
+                    <option value="0:00">0:00</option>
+                    <option value="8:00">8:00</option>
+                    <option value="16:00">16:00</option>
+                </select>
+                <button type="submit">Create Shift</button>
+            </form>
+            <div id="shift-message"></div>
+        </section>
+
+        <section id="shifts-list">
+            <h2>Shifts List</h2>
+            <button id="load-shifts">Load Shifts</button>
+            <table id="shifts" class="responsive-table">
+                <thead>
+                    <tr>
+                        <th>Shift ID</th>
+                        <th>Worker ID</th>
+                        <th>Date</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
+    </div>
+
+    <script src="js/scripts.js"></script>
+</body>
+</html>
