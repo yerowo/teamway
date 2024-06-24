@@ -6,47 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const workerMessage = document.getElementById('worker-message');
     const shiftMessage = document.getElementById('shift-message');
 
-    workerForm.addEventListener('submit', async function (event) {
-        event.preventDefault();
-        const formData = new FormData(workerForm);
-        const data = Object.fromEntries(formData);
-        
-        const response = await fetch('/workers/create', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-        });
-        
-        const result = await response.json();
-        if (result.error) {
-            workerMessage.textContent = result.message;
-        } else {
-            workerMessage.textContent = 'Worker created successfully';
-            workerForm.reset();
-        }
-    });
-
-    shiftForm.addEventListener('submit', async function (event) {
-        event.preventDefault();
-        const formData = new FormData(shiftForm);
-        const data = Object.fromEntries(formData);
-
-        const response = await fetch('/shifts/create', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-        });
-
-        const result = await response.json();
-        if (result.error) {
-            shiftMessage.textContent = result.message;
-        } else {
-            shiftMessage.textContent = 'Shift created successfully';
-            shiftForm.reset();
-        }
-    });
-
-    document.getElementById('load-workers').addEventListener('click', async function () {
+    async function loadWorkers() {
         const response = await fetch('/workers/get');
         const result = await response.json();
     
@@ -63,9 +23,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 workersTableBody.appendChild(tr);
             });
         }
-    });
-    
-    document.getElementById('load-shifts').addEventListener('click', async function () {
+    }
+
+    async function loadShifts() {
         const response = await fetch('/shifts/get');
         const result = await response.json();
     
@@ -97,6 +57,60 @@ document.addEventListener('DOMContentLoaded', function () {
                 shiftsTableBody.appendChild(tr);
             });
         }
+    }
+
+    workerForm.addEventListener('submit', async function (event) {
+        event.preventDefault();
+        const formData = new FormData(workerForm);
+        const data = Object.fromEntries(formData);
+        
+        const response = await fetch('/workers/create', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+        
+        const result = await response.json();
+        if (result.error) {
+            workerMessage.textContent = result.message;
+            workerMessage.classList.remove('success');
+            workerMessage.classList.add('error');
+        } else {
+            workerMessage.textContent = 'Worker created successfully';
+            workerMessage.classList.remove('error');
+            workerMessage.classList.add('success');
+            workerForm.reset();
+            loadWorkers(); // Load workers after creating a new worker
+        }
+        workerMessage.style.display = 'block';
     });
-    
+
+    shiftForm.addEventListener('submit', async function (event) {
+        event.preventDefault();
+        const formData = new FormData(shiftForm);
+        const data = Object.fromEntries(formData);
+
+        const response = await fetch('/shifts/create', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+        if (result.error) {
+            shiftMessage.textContent = result.message;
+            shiftMessage.classList.remove('success');
+            shiftMessage.classList.add('error');
+        } else {
+            shiftMessage.textContent = 'Shift created successfully';
+            shiftMessage.classList.remove('error');
+            shiftMessage.classList.add('success');
+            shiftForm.reset();
+            loadShifts(); // Load shifts after creating a new shift
+        }
+        shiftMessage.style.display = 'block';
+    });
+
+    document.getElementById('load-workers').addEventListener('click', loadWorkers);
+    document.getElementById('load-shifts').addEventListener('click', loadShifts);
 });
